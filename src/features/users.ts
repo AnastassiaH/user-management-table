@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction, Slice } from "@reduxjs/toolkit";
 import { User } from "../types/User";
 import { getUsers } from "../api";
 
@@ -18,7 +18,7 @@ export const init = createAsyncThunk("users/fetch", () => {
   return getUsers();
 });
 
-export const userSlice = createSlice({
+export const userSlice: Slice<UserState> = createSlice({
   name: "users",
   initialState,
   reducers: {},
