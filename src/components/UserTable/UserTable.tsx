@@ -192,9 +192,11 @@ export const UserTable: React.FC = () => {
               </TableRow>
             ))
           ) : (
-            <TableCell rowSpan={4}>
-              There are no users matching the criteria
-            </TableCell>
+            <TableRow>
+              <TableCell rowSpan={4}>
+                There are no users matching the criteria
+              </TableCell>
+            </TableRow>
           )}
         </TableBody>
       </Table>
