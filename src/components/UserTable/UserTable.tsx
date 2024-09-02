@@ -8,12 +8,13 @@ import TableRow from "@mui/material/TableRow";
 import { FilterKeys, filterSlice } from "../../features/filter";
 import { IconButton, TextField, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 
 const tableColumns: FilterKeys[] = ["name", "userName", "email", "phone"];
 
 export const UserTable: React.FC = () => {
   const { users } = useAppSelector((state) => state.users);
+  const inputRef = useRef<HTMLInputElement>();
   const { name, userName, email, phone, active } = useAppSelector(
     (state) => state.filter
   );
@@ -33,6 +34,12 @@ export const UserTable: React.FC = () => {
   const setPhone = (phone: string) => {
     dispatch(filterSlice.actions.setPhone(phone));
   };
+
+  useEffect(() => {
+    if (active && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [active]);
 
   const removeActiveColumn = (
     event: React.MouseEvent<HTMLTableCellElement>
@@ -133,6 +140,7 @@ export const UserTable: React.FC = () => {
                   <TextField
                     variant="standard"
                     size="small"
+                    inputRef={inputRef}
                     value={getInputValue(column)}
                     onChange={(e) =>
                       setActiveColumnValue(column, e.target.value)
@@ -184,7 +192,9 @@ export const UserTable: React.FC = () => {
               </TableRow>
             ))
           ) : (
-            <TableCell rowSpan={4}>There are no users matching criteria</TableCell>
+            <TableCell rowSpan={4}>
+              There are no users matching the criteria
+            </TableCell>
           )}
         </TableBody>
       </Table>
